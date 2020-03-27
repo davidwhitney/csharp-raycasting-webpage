@@ -15,6 +15,8 @@ namespace app.Pages
 {
     public class IndexModel : PageModel
     {
+        public int Width { get; set; } = 800;
+        public int Height { get; set; } = 600;
         public string ImageBytesBase64 { get; set; }
     
         public void OnGet()
@@ -37,7 +39,7 @@ namespace app.Pages
             });
 
             var camera = new Camera(world.CameraLocation, world) {DirectionInDegrees = 0};
-            var renderer = new BitmapRenderer(600, 800);
+            var renderer = new BitmapRenderer(Height, Width);
             var result = camera.Snapshot(renderer.Width, true);
             var pixels = renderer.RenderBitmap(result.Columns, camera);
             
