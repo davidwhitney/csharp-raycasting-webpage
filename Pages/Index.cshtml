@@ -4,9 +4,34 @@
     ViewData["Title"] = "Home page";
 }
 
-<div>
-  Hello ASP.NET MVC 2.1 Web Pages!
-</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web Pages App</title>
+    
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+  <nav>
+      <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Ray Casting Demo</a>
+  </nav>
+
+  <main>
+    <img src="data:image/png;base64, @Model.ImageBytesBase64" alt="Image" />  
+  </main>
+
+  <hr />
+
+  <footer>
+      <p>&copy; 2020 - WebApplication</p>
+  </footer>
+        
+  <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
 
 
-<img src="data:image/png;base64, @page.ImageBytesBase64" alt="Image" />
+

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace app.Pages
             });
 
             var camera = new Camera(world.CameraLocation, world) {DirectionInDegrees = 0};
-            var renderer = new BitmapRenderer(1440, 2560);
+            var renderer = new BitmapRenderer(600, 800);
             var result = camera.Snapshot(renderer.Width, true);
             var pixels = renderer.RenderBitmap(result.Columns, camera);
             
@@ -80,7 +81,7 @@ namespace app.Pages
                 var castDirection = ComputeDirection(DirectionInDegrees, angle);
                 var ray = Ray(column, new Ray.SamplePoint(Location2D), castDirection);
 
-                result.Columns[column] = ray[^1];
+                result.Columns[column] = ray[ray.Count - 1];
 
                 if (includeDebugInfo)
                 {
@@ -347,7 +348,13 @@ namespace app.Pages
             var width = pixels.GetLength(0);
             var height = pixels.GetLength(1);
 
-            using var img = Image.Load<Rgba32>(File.ReadAllBytes("bg.jpg"));
+            //https://cdn.glitch.com/bf87c409-56e4-4c5e-9e5c-b0694b2fdd99%2Fbg.jpg?v=1585306420493
+          
+            var client = new HttpClient();
+            var response = client.GetAsync("https://cdn.glitch.com/bf87c409-56e4-4c5e-9e5c-b0694b2fdd99%2Fbg.jpg?v=1585306420493").GetAwaiter().GetResult();
+            var bytes = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+          
+            using var img = Image.Load<Rgba32>(bytes);
             img.Mutate(x => x.Resize(width, height));
 
             Parallel.For(0, height, y =>
