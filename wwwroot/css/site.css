@@ -45,8 +45,20 @@ nav ul li:hover a {
 main {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-content: flex-start;
+    align-items: stretch;
     
     padding-top: 3vh;
     padding-bottom: 8vh;
+}
+
+.wideTextArea {
+	width: 40vw;
+	height: 20vh;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+  
 }

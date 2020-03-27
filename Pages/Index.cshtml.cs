@@ -20,10 +20,11 @@ namespace app.Pages
         public string ImageBytesBase64 { get; set; }
         
         [BindProperty]
-        public string Map { get; set; }
+        public string Map { get; set; } = "########################################\r\n#                                      #\r\n#      #########                       #\r\n#         ###                          #\r\n###       ###            #             #\r\n###                      #             #\r\n##                     ###             #\r\n#          c           ###      ########\r\n#                      ###      ########\r\n#                        #             #\r\n###                                    #\r\n###                                    #\r\n########################################";
     
         public void OnGet()
         {
+            var lines = Map.Trim().Split(Environment.NewLine)
             var world = new Map(new[]
             {
                 "########################################",
