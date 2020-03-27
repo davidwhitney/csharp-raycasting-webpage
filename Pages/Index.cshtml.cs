@@ -18,6 +18,9 @@ namespace app.Pages
         public int Width { get; set; } = 800;
         public int Height { get; set; } = 600;
         public string ImageBytesBase64 { get; set; }
+        
+        [BindProperty]
+        public string Map { get; set; }
     
         public void OnGet()
         {
@@ -46,6 +49,12 @@ namespace app.Pages
             var jpegByteArray = JpegSaver.SaveToJpeg(pixels);
             ImageBytesBase64 = Convert.ToBase64String(jpegByteArray);
         }
+    
+        public void OnPost()
+        {
+            var map = Request.Form["mapBody"];
+            // do something with emailAddress
+        } 
     }
     
     public class Camera
