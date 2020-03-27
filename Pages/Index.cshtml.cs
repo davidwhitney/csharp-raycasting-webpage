@@ -15,34 +15,32 @@ namespace app.Pages
 {
     public class IndexModel : PageModel
     {
-        public int Width { get; set; } = 800;
-        public int Height { get; set; } = 600;
+        public int Width { get; set; } = 1024;
+        public int Height { get; set; } = 768;
         public string ImageBytesBase64 { get; set; }
         
         [BindProperty]
         public string Map { get; set; } = "########################################\r\n#                                      #\r\n#      #########                       #\r\n#         ###                          #\r\n###       ###            #             #\r\n###                      #             #\r\n##                     ###             #\r\n#          c           ###      ########\r\n#                      ###      ########\r\n#                        #             #\r\n###                                    #\r\n###                                    #\r\n########################################";
     
+        [BindProperty]
+        public int DirectionInDegrees { get; set; } = 0;
+        
         public void OnGet()
         {
-            var lines = Map.Trim().Split(Environment.NewLine)
-            var world = new Map(new[]
-            {
-                "########################################",
-                "#                                      #",
-                "#      #########                       #",
-                "#         ###                          #",
-                "###       ###            #             #",
-                "###                      #             #",
-                "##                     ###             #",
-                "#          c           ###      ########",
-                "#                      ###      ########",
-                "#                        #             #",
-                "###                                    #",
-                "###                                    #",
-                "########################################",
-            });
+            RenderLines();
+        }
+    
+        public void OnPost()
+        {
+            RenderLines();
+        }
+        
+        private void RenderLines()
+        {
+            var lines = Map.Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+            var world = new Map(lines);
 
-            var camera = new Camera(world.CameraLocation, world) {DirectionInDegrees = 0};
+            var camera = new Camera(world.CameraLocation, world) { DirectionInDegrees = DirectionInDegrees };
             var renderer = new BitmapRenderer(Height, Width);
             var result = camera.Snapshot(renderer.Width, true);
             var pixels = renderer.RenderBitmap(result.Columns, camera);
@@ -50,12 +48,6 @@ namespace app.Pages
             var jpegByteArray = JpegSaver.SaveToJpeg(pixels);
             ImageBytesBase64 = Convert.ToBase64String(jpegByteArray);
         }
-    
-        public void OnPost()
-        {
-            var map = Request.Form["mapBody"];
-            // do something with emailAddress
-        } 
     }
     
     public class Camera

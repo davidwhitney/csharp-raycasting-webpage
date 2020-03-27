@@ -21,12 +21,14 @@
 
   <main>
   
-  <form>
-    <textarea asp-for="Map" class="wideTextArea"></textarea>
+  <form method="post">
+    <textarea asp-for="Map" class="wideTextArea"></textarea><br/>
+    <input asp-for="DirectionInDegrees" /><br/>
+    <input type="submit">
   </form>
   
   
-    <img src="data:image/png;base64, @Model.ImageBytesBase64" alt="Image" />  
+  <img src="data:image/png;base64, @Model.ImageBytesBase64" alt="Image" />  
     
     
   </main>
